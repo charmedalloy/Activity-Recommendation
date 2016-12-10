@@ -22,13 +22,24 @@ object MyApp {
     println(place_of_weather)
     val placeCoord = WeatherCollection.getGeoCoordinate(place_of_weather)
     val nearInterest = InterestPoint.getNearestInterestPoints(placeCoord, maxDistance)
-    nearInterest.foreach(println)
+    //nearInterest.foreach(println)
     val recommendation = Recommendation.Recommend(nearInterest, Weather("", -2.0, -20.0, "fair"))
     val array_of_points = recommendation.flatMap(r => r.places)
-    array_of_points.map{ point =>
-      println(point)
-    }
+    val rPoints = array_of_points.map(p =>
+      (p.latitude, p.longtitude, p.name, p.tourism, p.cultural, p.parks, p.leisure, p.sport, p.nightlife)
+    )
+    rPoints.foreach { line =>
+      println("Name<- " + line._3)
+      println("Coordinates<- " + line._1 + "," + line._2)
+      if (!line._4.equals("None")) println("Tourism<- " + line._4)
+      if (!line._5.equals("None")) println("Cultural<- " + line._5)
+      if (!line._6.equals("None")) println("Parks<- " + line._6)
+      if (!line._7.equals("None")) println("Leisure<- " + line._7)
+      if (!line._8.equals("None")) println("Sport<- " + line._8)
+      if (!line._9.equals("None")) println("Nightlife<- " + line._9)
+      println("**********************************************************************")
 
+    }
   }
 
 

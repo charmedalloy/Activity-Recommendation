@@ -16,8 +16,11 @@ object Recommendation {
       "canoe", "cliff_diving", "scuba_diving", "sailing", "safety_training", "surfing", "water_ski", "swimming")
     val avg_temp = (weather.Temp_max + weather.Temp_min) / 2.0
     if (weather.weather_type.equals("fair") || weather.weather_type.equals("dry")) {
-      if (avg_temp <= 1) {
+      if (avg_temp <= 1) { //Snow means Skiing is recommended
         recommend += RecommededPlaces(places.filter(point => point.sport.contains("skiing")), weather)
+      }
+      if (avg_temp >= 10 && avg_temp <= 30){
+
       }
     }
     recommend.toArray
