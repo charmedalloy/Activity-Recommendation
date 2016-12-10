@@ -24,6 +24,7 @@ object Recommendation {
         recommend += RecommededPlaces(places.filter(interestPoint => hotActivityTags.contains(interestPoint.cultural)
           || hotActivityTags.contains(interestPoint.leisure) || hotActivityTags.contains(interestPoint.sport)
           || hotActivityTags.contains(interestPoint.parks) || hotActivityTags.contains(interestPoint.tourism)), weather)
+
       }
     }
     else {
@@ -32,6 +33,8 @@ object Recommendation {
         || interestPoint.leisure.contains("gym") || interestPoint.sport.contains("9pin")
         || interestPoint.sport.contains("10pin") || interestPoint.sport.contains("boxing")
         || interestPoint.nightlife.contains("nightclub")), weather)
+
     }
     recommend.toArray
   }
+}
