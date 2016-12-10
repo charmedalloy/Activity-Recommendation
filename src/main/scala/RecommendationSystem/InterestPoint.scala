@@ -5,7 +5,6 @@ import com.mongodb.casbah.MongoClient
 import com.mongodb.casbah.query.Imports._
 import org.json4s._
 import org.json4s.native.JsonMethods._
-import org.json4s.JsonDSL._
 
 
 /**
@@ -66,7 +65,7 @@ object InterestPoint {
 
   def checkTag(tags: List[String]): Array[String] = {
     var reformated_tags = Array("None", "None", "None", "None", "None", "None")
-    tags.map { x =>
+    tags.foreach { x =>
       if (List("attraction", "information", "viewpoint").contains(x)) reformated_tags(0) = x // tourism tags
       if (List("arts_centre", "planetarium", "theatre").contains(x)) reformated_tags(1) = x // cultural tags
       if (List("picnic_site").contains(x)) reformated_tags(2) = x // parks tags
@@ -74,7 +73,8 @@ object InterestPoint {
       if (List("nightclub", "casino", "striplub", "cinema", "bar", "pub").contains(x)) reformated_tags(4) = x // nightlife tags
       if (List("9pin", "10pin", "american_football", "base", "baseball", "basketball", "bmx", "boxing", "canoe", "cliff_diving",
         "climbing_adventure", "roller_skating", "scuba_diving", "sailing", "safety_training", "skateboard", "skiing", "surfing",
-        "swimming", "water_ski").contains(x)) reformated_tags(5) = x // sport tags
+        "swimming", "water_ski").contains(x))
+        reformated_tags(5) = x // sport tags
     }
     reformated_tags
   }
