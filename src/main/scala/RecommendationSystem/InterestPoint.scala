@@ -78,46 +78,4 @@ object InterestPoint {
     }
     reformated_tags
   }
-
-  //Input:Array(InterestPoint_out) with all interest places. Output: array with tourism points only
-  def getTourismPoints(interest_places: Array[InterestPoint_reformed]): Array[InterestPoint_reformed] = {
-    val tourism_filtered = interest_places.filter { x => x.tourism != "None" }
-    tourism_filtered
-
-  }
-
-  //Input:Array(InterestPoint_out) with all interest places. Output: array with cultural points only
-  def getCulturalPoints(interest_places: Array[InterestPoint_reformed]): Array[InterestPoint_reformed] = {
-    val cultural_filtered = interest_places.filter { x => x.cultural != "None" }
-    cultural_filtered
-
-  }
-
-  //Input:Array(InterestPoint_out) with all interest places. Output: array with parks points only
-  def getParksPoints(interest_places: Array[InterestPoint_reformed]): Array[InterestPoint_reformed] = {
-    val parks_filtered = interest_places.filter { x => x.parks != "None" }
-    parks_filtered
-
-  }
-
-  //Input:Array(InterestPoint_out) with all interest places. Output: array with leisure points only
-  def getLeisurePoints(interest_places: Array[InterestPoint_reformed]): Array[InterestPoint_reformed] = {
-    val leisure_filtered = interest_places.filter { x => x.leisure != "None" }
-    leisure_filtered
-
-  }
-
-
-  //Input:Array(InterestPoint_out) with all interest places. Output: array with nightlife points only
-  def getNightLifePoints(interest_places: Array[InterestPoint_reformed]): Array[InterestPoint_reformed] = {
-    val nightlife_filtered = interest_places.filter { x => x.nightlife != "None" }
-    nightlife_filtered
-  }
-
-
-  //Input:Array(InterestPoint_out) with all interest places. Output: array with sport points only
-  def getSportPoints(interest_places: Array[InterestPoint_reformed]): Array[InterestPoint_reformed] = {
-    val sport_filtered = interest_places.filter { x => !x.sport.equals("None") }
-    sport_filtered
-  }
 }
