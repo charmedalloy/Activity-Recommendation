@@ -27,10 +27,9 @@ object TemperatureModel {
 
       val categoricalFeaturesInfo = Map[Int, Int]()
       val impurity = "variance"
-      val maxDepth = 8
-      val maxBins = 60
+      val maxDepth = 30
+      val maxBins = 365 / 7
       val model = DecisionTree.trainRegressor(parsedData.distinct(), categoricalFeaturesInfo, impurity, maxDepth, maxBins)
-
 
       val prediction = model.predict(Vectors.dense(predictDate.toDouble))
       val cols = data.map(line => line.split(",")(0))
@@ -46,6 +45,15 @@ object TemperatureModel {
           .appendAll(id(0) + "," + predictDate + "," + (prediction / 10.0).toString + "\n")
 
     }
+  }
+
+  def convert(day: Int, month: Int): Int = {
+    val nbreJour = List(31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31)
+    var pos = 0
+    for (i <- Range(0, month - 1)) {
+      pos += nbreJour(i)
+    }
+    pos + (day - 1)
   }
 
 }
