@@ -12,7 +12,7 @@ import org.json4s.JsonDSL.WithDouble._
 object MyApp {
 
   def main(args: Array[String]): Unit = {
-    val Point_Of_Interest = "Houston"
+    val Point_Of_Interest = "India"
     val maxDistance = 1.0
     val todayDate = new DateTime()
     val nextDate = todayDate.plusDays(1)
@@ -29,23 +29,24 @@ object MyApp {
     val recommendation = Recommendation.Recommend(nearInterest, Weather_data(0))
     val array_of_points = recommendation.flatMap(r => r.places)
     val jsonObj = convertAllPointsToGeoJson(array_of_points, Weather_data(0))
-    val json = pretty(render(jsonObj(0)))
-    println(json)
+    jsonObj.foreach(json =>
+      println(pretty(render(jsonObj(0))))
+    )
     val rPoints = array_of_points.map(p =>
       (p.latitude, p.longtitude, p.name, p.tourism, p.cultural, p.parks, p.leisure, p.sport, p.nightlife)
     )
-    rPoints.foreach { line =>
-      println("Name<- " + line._3)
-      println("Coordinates<- " + line._1 + "," + line._2)
-      if (!line._4.equals("None")) println("Tourism<- " + line._4)
-      if (!line._5.equals("None")) println("Cultural<- " + line._5)
-      if (!line._6.equals("None")) println("Parks<- " + line._6)
-      if (!line._7.equals("None")) println("Leisure<- " + line._7)
-      if (!line._8.equals("None")) println("Sport<- " + line._8)
-      if (!line._9.equals("None")) println("Nightlife<- " + line._9)
-      println("**********************************************************************")
-
-    }
+//    rPoints.foreach { line =>
+//      println("Name<- " + line._3)
+//      println("Coordinates<- " + line._1 + "," + line._2)
+//      if (!line._4.equals("None")) println("Tourism<- " + line._4)
+//      if (!line._5.equals("None")) println("Cultural<- " + line._5)
+//      if (!line._6.equals("None")) println("Parks<- " + line._6)
+//      if (!line._7.equals("None")) println("Leisure<- " + line._7)
+//      if (!line._8.equals("None")) println("Sport<- " + line._8)
+//      if (!line._9.equals("None")) println("Nightlife<- " + line._9)
+//      println("**********************************************************************")
+//
+//    }
   }
 
   //Convert InterestPoint_out array to Array[String] GeoJSON format

@@ -30,7 +30,7 @@ object Recommendation {
           || normal_hotActivityTags.contains(interestPoint.parks.get) || normal_hotActivityTags.contains(interestPoint.tourism.get)), weather)
       }
 
-      if (avg_temp > 20 && avg_temp <= 45) {
+      if (avg_temp > 20 && avg_temp <= 40) {
         recommend += RecommededPlaces(places.filter(interestPoint => extreme_hotActivityTags.contains(interestPoint.cultural.get)
           || extreme_hotActivityTags.contains(interestPoint.leisure.get) || extreme_hotActivityTags.contains(interestPoint.sport.get)
           || extreme_hotActivityTags.contains(interestPoint.parks.get) || extreme_hotActivityTags.contains(interestPoint.tourism.get)), weather)
