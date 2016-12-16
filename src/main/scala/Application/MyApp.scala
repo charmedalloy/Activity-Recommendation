@@ -12,7 +12,8 @@ import org.json4s.JsonDSL.WithDouble._
 object MyApp {
 
   def main(args: Array[String]): Unit = {
-    val Point_Of_Interest = "Austin"   //User location ( we can get this from browser when implementing web-app)
+    val Point_Of_Interest = "Austin"
+    //User location ( we can get this from browser when implementing web-app)
     val maxDistance = 1.0
     val todayDate = new DateTime()
     val nextDate = todayDate.plusDays(1)
@@ -44,7 +45,7 @@ object MyApp {
 
   //Convert InterestPoint_out data structure to GeoJson
   def convertToGeoJson(point: InterestPoint_reformed, weather: Weather): JObject = {
-    val coordinates = List(point.latitude, point.longtitude)
+    val coordinates = List(point.longtitude, point.latitude)
     val temperature = (weather.Temp_max + weather.Temp_min) / 2.0
     val bar = weather.weather_type
     val json =
@@ -66,6 +67,4 @@ object MyApp {
           )
     json
   }
-
-
 }
