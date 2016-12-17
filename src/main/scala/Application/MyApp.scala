@@ -12,7 +12,7 @@ import org.json4s.JsonDSL.WithDouble._
 object MyApp {
 
   def main(args: Array[String]): Unit = {
-    val Point_Of_Interest = "Austin"
+    val Point_Of_Interest = "Dallas"
     //User location ( we can get this from browser when implementing web-app)
     val maxDistance = 1.0
     val todayDate = new DateTime()
