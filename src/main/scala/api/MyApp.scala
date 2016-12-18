@@ -1,17 +1,17 @@
-package Application
+package api
 
 import RecommendationSystem._
 import org.joda.time.DateTime
 import org.json4s._
 import org.json4s.native.JsonMethods._
-import org.json4s.JsonDSL.WithDouble._
+import org.json4s.JsonDSL._
 
 /**
   * Created by avalj on 12/09/16.
   */
 object MyApp {
 
-  def main(args: Array[String]): Unit = {
+  def app(lat: String, long: String): JObject = {
     val Point_Of_Interest = "Dallas"
     //User location ( we can get this from browser when implementing web-app)
     val maxDistance = 1.0
@@ -30,12 +30,10 @@ object MyApp {
     val recommendation = Recommendation.Recommend(nearInterest, Weather_data(0))
     val array_of_points = recommendation.flatMap(r => r.places)
     val jsonObj = convertAllPointsToGeoJson(array_of_points, Weather_data(0))
-    jsonObj.foreach(json =>
-      println(pretty(render(jsonObj(0))))
-    )
-    val rPoints = array_of_points.map(p =>
-      (p.latitude, p.longtitude, p.name, p.tourism, p.cultural, p.parks, p.leisure, p.sport, p.nightlife)
-    )
+    val finalJson =
+      ("type" -> "FeatureCollection") ~
+        ("features" -> jsonObj.toList)
+    finalJson
   }
 
   //Convert InterestPoint_out array to Array[String] GeoJSON format
