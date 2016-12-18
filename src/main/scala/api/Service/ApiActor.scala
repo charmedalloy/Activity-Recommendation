@@ -1,12 +1,16 @@
 package api.Service
 
-import akka.actor.{Actor, ActorContext, ActorLogging, ActorRefFactory}
-import api.MyApp
+import akka.actor.{Actor, ActorContext, ActorLogging, ActorRef, ActorRefFactory, Props}
+import akka.util.Timeout
+import api.Location
 import org.json4s.{DefaultFormats, Formats}
 import spray.http.HttpHeaders.RawHeader
 import spray.http.MediaTypes
 import spray.httpx.Json4sSupport
 import spray.routing.{HttpService, Route}
+
+import scala.concurrent.ExecutionContext
+import scala.concurrent.duration._
 
 /**
   * Created by avalj on 12/17/16.
@@ -20,12 +24,12 @@ class ApiActor extends Actor with HttpService with ActorLogging {
 
   import Json4sProtocol._
 
-  //The HttpService trait defines only one abstract member, which
-  //connects the services environment to the enclosing actor or test
-  def actorRefFactory: ActorContext = context
+  //timeout needs to be set as an implicit val for the ask method (?)
+  implicit val timeout = Timeout(5.minutes)
 
   //This actor only runs our route, but you could add
   //other things here, like request stream processing or timeout handling
+  def actorRefFactory: ActorContext = context
   def receive: Receive = runRoute(apiRoute)
 
   val apiRoute: Route =
@@ -34,7 +38,7 @@ class ApiActor extends Actor with HttpService with ActorLogging {
         respondWithMediaType(MediaTypes.`application/json`) {
           respondWithHeader(RawHeader("Access-Control-Allow-Origin", "*")) {
             complete {
-              MyApp.app(lat, long)
+              Location.app(lat, long)
             }
           }
         }

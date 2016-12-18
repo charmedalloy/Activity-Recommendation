@@ -1,4 +1,4 @@
-package DataSet.GHCN_Dataset
+package dataSet.GHCN_Dataset
 
 import java.io.File
 import java.util.concurrent.{Executors, TimeUnit}

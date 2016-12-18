@@ -1,4 +1,4 @@
-package DataSet.GHCN_Dataset
+package dataSet.GHCN_Dataset
 
 /**
   * Created by avalj on 11/12/16.

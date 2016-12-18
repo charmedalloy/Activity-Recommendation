@@ -1,7 +1,7 @@
-package RecommendationSystem
+package recommendationSystem
 
 
-import PredictionCollection.Prediction
+import predictionCollection.Prediction
 import com.google.maps.model.LatLng
 import com.google.maps.{GeoApiContext, GeocodingApi}
 import com.mongodb.DBObject
@@ -81,8 +81,8 @@ object WeatherCollection {
     val date_to_predict1 = dtf.print(nextDate)
     val date_to_predict2 = dtf.print(nextDate)
 
-    //Prediction.Temperature(stations_ghcn_ids, sc, date_to_predict1)
-    //Prediction.Pressure(station_isd_ids, sc, date_to_predict2)
+    Prediction.Temperature(stations_ghcn_ids, sc, date_to_predict1)
+    Prediction.Pressure(station_isd_ids, sc, date_to_predict2)
     val tmax_all = getTmaxPrediction(stations_ghcn)
     val tmin_all = getTminPrediction(stations_ghcn)
     val bar_all = getPressure(station_isd)

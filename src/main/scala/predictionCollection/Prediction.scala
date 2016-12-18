@@ -1,10 +1,10 @@
-package PredictionCollection
+package predictionCollection
 
 import java.io.File
 import java.nio.file.Paths
 
-import DataSet.GHCN_Dataset.UpdatedData
-import Model.{CreateTestData1, CreateTestData2, PressureModel, TemperatureModel}
+import dataSet.GHCN_Dataset.UpdatedData
+import model.{CreateTestData1, CreateTestData2, PressureModel, TemperatureModel}
 import org.apache.log4j.{Level, Logger}
 import org.apache.spark.{SparkConf, SparkContext}
 import org.joda.time.DateTime
@@ -99,7 +99,6 @@ object Prediction {
       trainingData.foreach { file =>
         val filename = getFilename(file)
         if (filename.contains(id)) {
-          println(filename)
           PressureModel.pressure_prediction(filename, dateToPredict + "0600", sc)
         }
       }

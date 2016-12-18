@@ -1,4 +1,4 @@
-package RecommendationSystem
+package recommendationSystem
 
 import scala.collection.mutable.ArrayBuffer
 

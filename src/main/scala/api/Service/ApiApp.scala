@@ -16,11 +16,11 @@ object ApiApp extends App {
   implicit val system = ActorSystem("ApiApp")
 
   //create apiActor
-  val apiActor = system.actorOf(Props[ApiActor], "apiActor")
+  val apiActor = system.actorOf(Props[ApiActor], "ApiActor")
 
   //timeout needs to be set as an implicit val for the ask method (?)
-  implicit val timeout = Timeout(1.minutes)
+  //implicit val timeout = Timeout(10.minutes)
 
   //start a new HTTP server on port 8080 with apiActor as the handler
-  IO(Http) ? Http.Bind(apiActor, interface = "localhost", port = 8080)
+  IO(Http) ! Http.Bind(apiActor, interface = "localhost", port = 8080)
 }

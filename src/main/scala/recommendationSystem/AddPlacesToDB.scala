@@ -1,4 +1,4 @@
-package RecommendationSystem
+package recommendationSystem
 
 import com.mongodb.DBObject
 import com.mongodb.casbah.MongoClient

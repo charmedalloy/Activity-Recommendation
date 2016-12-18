@@ -1,15 +1,14 @@
 package api
 
-import RecommendationSystem._
+import recommendationSystem._
 import org.joda.time.DateTime
 import org.json4s._
-import org.json4s.native.JsonMethods._
 import org.json4s.JsonDSL._
 
 /**
   * Created by avalj on 12/09/16.
   */
-object MyApp {
+object Location {
 
   def app(lat: String, long: String): JObject = {
     val Point_Of_Interest = "Dallas"
@@ -17,7 +16,6 @@ object MyApp {
     val maxDistance = 1.0
     val todayDate = new DateTime()
     val nextDate = todayDate.plusDays(1)
-    println("For: " + nextDate)
 
     val Weather_data = WeatherCollection.weather(Point_Of_Interest, maxDistance, nextDate)
 

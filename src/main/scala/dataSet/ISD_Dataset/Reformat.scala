@@ -1,4 +1,4 @@
-package DataSet.ISD_Dataset
+package dataSet.ISD_Dataset
 
 import java.io.File
 import java.nio.file.Paths

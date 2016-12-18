@@ -1,4 +1,4 @@
-package Model
+package model
 
 import org.apache.commons.io.FilenameUtils
 import org.apache.log4j.{Level, Logger}
