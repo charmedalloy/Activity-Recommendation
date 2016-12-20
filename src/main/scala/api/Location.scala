@@ -11,13 +11,13 @@ import org.json4s.JsonDSL._
 object Location {
 
   def app(lat: String, long: String): JObject = {
-    val Point_Of_Interest = "Dallas"
+    val LocObject = new Location(lat.toDouble, long.toDouble)
     //User location ( we can get this from browser when implementing web-app)
     val maxDistance = 1.0
     val todayDate = new DateTime()
     val nextDate = todayDate.plusDays(1)
 
-    val Weather_data = WeatherCollection.weather(Point_Of_Interest, maxDistance, nextDate)
+    val Weather_data = WeatherCollection.weather(LocObject, maxDistance, nextDate)
 
     val weather = Weather_data.map(w => (w.Place, w.Temp_max, w.Temp_min, w.weather_type))
     weather.sortBy(w => w._1).foreach(println)

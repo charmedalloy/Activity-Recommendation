@@ -25,7 +25,7 @@ class ApiActor extends Actor with HttpService with ActorLogging {
   import Json4sProtocol._
 
   //timeout needs to be set as an implicit val for the ask method (?)
-  implicit val timeout = Timeout(5.minutes)
+  implicit val timeout = Timeout(10.minutes)
 
   //This actor only runs our route, but you could add
   //other things here, like request stream processing or timeout handling

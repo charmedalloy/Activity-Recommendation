@@ -62,17 +62,15 @@ object WeatherCollection {
     }
   }
 
-  def weather(inputPlace: String, radius: Double, nextDate: DateTime): Array[Weather] = {
-    val placeOfInterest = inputPlace
-    val LocObj = getGeoCoordinate(placeOfInterest)
+  def weather(LocObj: Location, radius: Double, nextDate: DateTime): Array[Weather] = {
+
     val stations_ghcn = getNearestStations(LocObj, radius, "stations_ghcn")
     val stations_ghcn_ids = stations_ghcn.map(s => s.id)
+
     //ids nearest to place of interest
     val station_isd = getNearestStations(LocObj, radius, "stations_isd")
     val station_isd_ids = station_isd.map(s => s.id) //ids nearest to place of interest
 
-    // Start of application
-    //val sc = new SparkContext("local[2]", "project")
     Logger.getLogger("org").setLevel(Level.ERROR)
     val conf = new SparkConf().setAppName("Learning and Prediction System").setMaster("local[4]")
     val sc = new SparkContext(conf)
@@ -86,12 +84,13 @@ object WeatherCollection {
     val tmax_all = getTmaxPrediction(stations_ghcn)
     val tmin_all = getTminPrediction(stations_ghcn)
     val bar_all = getPressure(station_isd)
+    sc.stop()
 
     val temperature_data = new ArrayBuffer[Weather]()
     val weather_data = new ArrayBuffer[Weather]()
     val places1 = new mutable.HashSet[String]()
     val places2 = new mutable.HashSet[String]()
-    //val weather_data_unknown = new mutable.HashSet[Weather]()
+
     tmax_all.foreach { tmax =>
       tmin_all.foreach { tmin =>
         if (tmax.GeoLocation.equals(tmin.GeoLocation))
