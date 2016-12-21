@@ -3,6 +3,7 @@ package api.Service
 import akka.actor.{Actor, ActorContext, ActorLogging, ActorRef, ActorRefFactory, Props}
 import akka.util.Timeout
 import api.Location
+import org.apache.log4j.{Level, Logger}
 import org.json4s.{DefaultFormats, Formats}
 import spray.http.HttpHeaders.RawHeader
 import spray.http.MediaTypes
@@ -21,6 +22,7 @@ object Json4sProtocol extends Json4sSupport {
 }
 
 class ApiActor extends Actor with HttpService with ActorLogging {
+  Logger.getLogger("akka").setLevel(Level.ERROR)
 
   import Json4sProtocol._
 
@@ -30,15 +32,16 @@ class ApiActor extends Actor with HttpService with ActorLogging {
   //This actor only runs our route, but you could add
   //other things here, like request stream processing or timeout handling
   def actorRefFactory: ActorContext = context
+
   def receive: Receive = runRoute(apiRoute)
 
   val apiRoute: Route =
-    path("location" / Segment / Segment) { (lat, long) =>
+    path("location" / Segment / Segment / Segment) { (lat, long, flag) =>
       get {
         respondWithMediaType(MediaTypes.`application/json`) {
           respondWithHeader(RawHeader("Access-Control-Allow-Origin", "*")) {
             complete {
-              Location.app(lat, long)
+              Location.app(lat, long, flag)
             }
           }
         }

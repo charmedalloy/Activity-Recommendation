@@ -17,6 +17,8 @@ import scala.collection.mutable
 import scala.collection.mutable.ArrayBuffer
 import scala.io.Source
 
+import scala.sys.process._
+
 
 /**
   * Created by avalj on 12/08/16.
@@ -35,13 +37,13 @@ case class Weather(Place: String, Temp_max: Double, Temp_min: Double, weather_ty
 object WeatherCollection {
   val api_key = "AIzaSyB-PHZw-tedW3wepxkKVEmcjDVZSApQOjI"
 
-  def getGeoCoordinate(placeOfInterest: String): Location = {
-    //val api_key = "AIzaSyBRi4V1Zppq2jI220OBHY0mELI7yQhlzHo"
-    val context = new GeoApiContext().setApiKey(api_key)
-    val results = GeocodingApi.geocode(context, placeOfInterest).await()
-    val latNlong = results(0).geometry.location
-    Location(latNlong.lat, latNlong.lng)
-  }
+  //  def getGeoCoordinate(placeOfInterest: String): Location = {
+  //    //val api_key = "AIzaSyBRi4V1Zppq2jI220OBHY0mELI7yQhlzHo"
+  //    val context = new GeoApiContext().setApiKey(api_key)
+  //    val results = GeocodingApi.geocode(context, placeOfInterest).await()
+  //    val latNlong = results(0).geometry.location
+  //    Location(latNlong.lat, latNlong.lng)
+  //  }
 
   def getGeoLocation(loc: Location): String = {
     //val api_key = "AIzaSyBRi4V1Zppq2jI220OBHY0mELI7yQhlzHo"
@@ -62,11 +64,10 @@ object WeatherCollection {
     }
   }
 
-  def weather(LocObj: Location, radius: Double, nextDate: DateTime): Array[Weather] = {
+  def weather(LocObj: Location, radius: Double, nextDate: DateTime, flag: Boolean): Array[Weather] = {
 
     val stations_ghcn = getNearestStations(LocObj, radius, "stations_ghcn")
     val stations_ghcn_ids = stations_ghcn.map(s => s.id)
-
     //ids nearest to place of interest
     val station_isd = getNearestStations(LocObj, radius, "stations_isd")
     val station_isd_ids = station_isd.map(s => s.id) //ids nearest to place of interest
@@ -78,9 +79,10 @@ object WeatherCollection {
     val dtf = DateTimeFormat.forPattern("yyyyMMdd")
     val date_to_predict1 = dtf.print(nextDate)
     val date_to_predict2 = dtf.print(nextDate)
-
-    Prediction.Temperature(stations_ghcn_ids, sc, date_to_predict1)
-    Prediction.Pressure(station_isd_ids, sc, date_to_predict2)
+    if (flag) {
+      Prediction.Temperature(stations_ghcn_ids, sc, date_to_predict1)
+      Prediction.Pressure(station_isd_ids, sc, date_to_predict2)
+    }
     val tmax_all = getTmaxPrediction(stations_ghcn)
     val tmin_all = getTminPrediction(stations_ghcn)
     val bar_all = getPressure(station_isd)
@@ -153,7 +155,6 @@ object WeatherCollection {
     }
     barArray.toArray
   }
-
 
   def getNearestStations(location: Location, radius: Double, CollectionName: String): Array[Station] = {
 

@@ -5,26 +5,28 @@ import org.joda.time.DateTime
 import org.json4s._
 import org.json4s.JsonDSL._
 
+import scala.sys.process.Process
+
 /**
   * Created by avalj on 12/09/16.
   */
 object Location {
 
-  def app(lat: String, long: String): JObject = {
+  def app(lat: String, long: String, flag: String): JObject = {
     val LocObject = new Location(lat.toDouble, long.toDouble)
-    //User location ( we can get this from browser when implementing web-app)
+    //User location ( we get this from browser when implementing web-app)
     val maxDistance = 1.0
     val todayDate = new DateTime()
     val nextDate = todayDate.plusDays(1)
 
-    val Weather_data = WeatherCollection.weather(LocObject, maxDistance, nextDate)
+    val Weather_data = WeatherCollection.weather(LocObject, maxDistance, nextDate, flag.toBoolean)
 
     val weather = Weather_data.map(w => (w.Place, w.Temp_max, w.Temp_min, w.weather_type))
     weather.sortBy(w => w._1).foreach(println)
     val place_of_weather = weather(0)._1
     println(Weather_data(0))
-    val placeCoord = WeatherCollection.getGeoCoordinate(place_of_weather)
-    val nearInterest = InterestPoint.getNearestInterestPoints(placeCoord, maxDistance)
+    //val placeCoord = WeatherCollection.getGeoCoordinate(place_of_weather)
+    val nearInterest = InterestPoint.getNearestInterestPoints(LocObject, maxDistance)
     val recommendation = Recommendation.Recommend(nearInterest, Weather_data(0))
     val array_of_points = recommendation.flatMap(r => r.places)
     val jsonObj = convertAllPointsToGeoJson(array_of_points, Weather_data(0))

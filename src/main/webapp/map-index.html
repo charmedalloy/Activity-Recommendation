@@ -81,6 +81,8 @@
         }
 
     </style>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDio_dtRzoS_o4a22PAG7GFmYEKlxVmy4w&callback&libraries=places&callback=initAutocomplete"
+            async defer></script>
 </head>
 <body>
 <div id="bar">
@@ -98,11 +100,16 @@
     // <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places">
     var lat = 0;
     var long = 0;
+
     function initAutocomplete() {
         var map = new google.maps.Map(document.getElementById('map'), {
             center: {lat: 32.775, lng: -96.796},
             zoom: 13,
             mapTypeId: 'roadmap'
+        });
+        var infowindow = new google.maps.InfoWindow();
+        google.maps.event.addListener(map, 'click', function () {
+            infowindow.close();
         });
 
         // Create the search box and link it to the UI element.
@@ -156,8 +163,26 @@
 
                 lat = place.geometry.location.lat();
                 long = place.geometry.location.lng();
-                console.log(place.geometry.location.lat() + "," + place.geometry.location.lng());
-                map.data.loadGeoJson('http://localhost:8080/location/' + lat + '/' + long);
+
+
+                map.data.addListener('click', function (event) {
+                    var myHTML = "";
+                    event.feature.forEachProperty(function (value, property) {
+                        myHTML = myHTML + value + "\n";
+                        infowindow.setContent("<div style='width:150px; text-align: center;'>" + myHTML + "</div>");
+                    });
+
+                    infowindow.setPosition(event.feature.getGeometry().get());
+                    infowindow.setOptions({pixelOffset: new google.maps.Size(0, -30)});
+                    infowindow.open(map);
+                });
+                if (confirm("Press Ok for the latest prediction.[May take 3-4 minutes]") == true) {
+                    map.data.loadGeoJson('http://localhost:8080/location/' + lat + '/' + long + '/' + true);
+                }
+                else {
+                    map.data.loadGeoJson('http://localhost:8080/location/' + lat + '/' + long + '/' + false);
+                }
+
                 var featureStyle = {
                     strokeColor: '#ff3333',
                     strokeWeight: 4
@@ -178,7 +203,5 @@
     }
 
 </script>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDio_dtRzoS_o4a22PAG7GFmYEKlxVmy4w&callback&libraries=places&callback=initAutocomplete"
-        async defer></script>
 </body>
 </html>
