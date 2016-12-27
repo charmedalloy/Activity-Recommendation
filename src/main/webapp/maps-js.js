@@ -79,7 +79,7 @@ function initAutocomplete() {
             map.data.addListener('click', function (event) {
                 var myHTML = "";
                 event.feature.forEachProperty(function (value, property) {
-                    myHTML = myHTML + value + "\n";
+                    myHTML = myHTML + "<b>" + property.toUpperCase() + "</b>" + ":" + value + "\n";
                     infowindow.setContent("<div style='width:150px; text-align: center;'>" + myHTML + "<br>" + "</div>");
                 });
 
@@ -91,7 +91,9 @@ function initAutocomplete() {
                 map.data.loadGeoJson('http://localhost:8080/location/' + lat + '/' + long + '/' + true);
             }
             else {
-                alert("Sorry then!!")
+                //alert("Sorry then!!")
+                map.data.loadGeoJson('http://localhost:8080/location/' + lat + '/' + long + '/' + false);
+
             }
 
             var featureStyle = {
