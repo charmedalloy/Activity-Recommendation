@@ -10,7 +10,7 @@ import spray.http.MediaTypes
 import spray.httpx.Json4sSupport
 import spray.routing.{HttpService, Route}
 
-import scala.concurrent.ExecutionContext
+
 import scala.concurrent.duration._
 
 /**

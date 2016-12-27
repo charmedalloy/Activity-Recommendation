@@ -23,7 +23,6 @@ object Location {
 
     val weather = Weather_data.map(w => (w.Place, w.Temp_max, w.Temp_min, w.weather_type))
     weather.sortBy(w => w._1).foreach(println)
-    val place_of_weather = weather(0)._1
     println(Weather_data(0))
     //val placeCoord = WeatherCollection.getGeoCoordinate(place_of_weather)
     val nearInterest = InterestPoint.getNearestInterestPoints(LocObject, maxDistance)
@@ -60,7 +59,7 @@ object Location {
             ("leisure" -> point.leisure) ~
             ("nightlife" -> point.nightlife) ~
             ("sport" -> point.sport) ~
-            ("temperature" -> temperature) ~
+            ("temperature" -> temperature.toInt) ~
             ("bar" -> bar)
           )
     json
